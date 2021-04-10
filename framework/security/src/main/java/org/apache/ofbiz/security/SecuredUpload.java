@@ -114,7 +114,7 @@ public class SecuredUpload {
             } else if (!file.matches("[a-zA-Z0-9]{1,249}.[a-zA-Z0-9]{1,10}")) {
                 Debug.logError("Uploaded file "
                         + " should contain only Alpha-Numeric characters, only 1 dot as an input for the file name and the extension."
-                        + "The file name and the extension should not be empty at all",
+                        + "The file name and extension should not be empty at all",
                         MODULE);
                 return false;
             }
@@ -125,7 +125,7 @@ public class SecuredUpload {
             } else if (!file.matches("[a-zA-Z0-9]{1,4086}.[a-zA-Z0-9]{1,10}")) {
                 Debug.logError("Uploaded file "
                         + " should contain only Alpha-Numeric characters, only 1 dot as an input for the file name and the extension."
-                        + "Tthe file name and the extension should not be empty at all",
+                        + "Tthe file name and extension should not be empty at all",
                         MODULE);
                 return false;
             }
@@ -234,8 +234,9 @@ public class SecuredUpload {
         File file = new File(fileName);
         boolean safeState = false;
         boolean fallbackOnApacheCommonsImaging;
-        try {
-            if ((file != null) && file.exists() && file.canRead() && file.canWrite()) {
+
+        if ((file != null) && file.exists() && file.canRead() && file.canWrite()) {
+            try (OutputStream fos = Files.newOutputStream(file.toPath(), StandardOpenOption.WRITE)) {
                 // Get the image format
                 String formatName;
                 ImageInputStream iis = ImageIO.createImageInputStream(file);
@@ -285,7 +286,7 @@ public class SecuredUpload {
                 Graphics bg = sanitizedImage.getGraphics();
                 bg.drawImage(initialSizedImage, 0, 0, null);
                 bg.dispose();
-                OutputStream fos = Files.newOutputStream(file.toPath(), StandardOpenOption.WRITE);
+
                 if (!fallbackOnApacheCommonsImaging) {
                     ImageIO.write(sanitizedImage, formatName, fos);
                 } else {
@@ -293,35 +294,28 @@ public class SecuredUpload {
                     // Handle only formats for which Apache Commons Imaging can successfully write (YES in Write column of the reference link)
                     // the image format. See reference link in the class header
                     switch (formatName) {
-                    case "TIFF": {
+                    case "TIFF":
                         imageParser = new TiffImageParser();
                         break;
-                    }
-                    case "GIF": {
+                    case "GIF":
                         imageParser = new GifImageParser();
                         break;
-                    }
-                    case "PNG": {
+                    case "PNG":
                         imageParser = new PngImageParser();
                         break;
-                    }
-                    case "JPEG": {
+                    case "JPEG":
                         imageParser = new JpegImageParser();
                         break;
-                    }
-                    default: {
+                    default:
                         throw new IOException("Format of the original image " + fileName + " is not supported for write operation !");
-                    }
                     }
                     imageParser.writeImage(sanitizedImage, fos, new HashMap<>());
                 }
                 // Set state flag
-                fos.close(); // This was not correctly handled in the document-upload-protection example, and I did not spot it :/
                 safeState = true;
+            } catch (IOException | ImageReadException | ImageWriteException e) {
+                Debug.logWarning(e, "Error during Image file " + fileName + " processing !", MODULE);
             }
-        } catch (IOException | ImageReadException | ImageWriteException e) {
-            safeState = false;
-            Debug.logWarning(e, "Error during Image file " + fileName + " processing !", MODULE);
         }
         return safeState;
     }
