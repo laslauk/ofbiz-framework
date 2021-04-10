@@ -22,9 +22,10 @@ name: Java CI with Gradle
 on:
   workflow_dispatch:
   push:
-    branches: [ trunk ]
+    branches: [ trunk, OFBIZ-*]
+
   pull_request:
-    branches: [ trunk ]
+    branches: [ trunk, OFBIZ-* ]
 
 jobs:
   build:
