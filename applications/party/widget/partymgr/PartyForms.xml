@@ -303,7 +303,7 @@ under the License.
     <form name="EditPartyGroup2" type="single" target="createPartyGroup" default-map-name="partyGroup"
         header-row-style="header-row" default-table-style="basic-table">
         <field name="groupName"><text size="6" maxlength="10"/></field>
-        <field name="submitButton" title="${uiLabelMap.CommonSave}"><submit button-type="button"/></field>
+        <field name="submitButton" title="${uiLabelMap.CommonCreate}"><submit button-type="button"/></field>
     </form>
 
     <form name="ViewPartyGroup" type="single" default-map-name="lookupGroup">
