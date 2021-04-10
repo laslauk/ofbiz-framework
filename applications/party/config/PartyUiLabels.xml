@@ -2388,9 +2388,6 @@
         <value xml:lang="zh">编辑组信息</value>
         <value xml:lang="zh-TW">編輯群組資訊</value>
     </property>
-    <property key="PageTitleAddNewPartyGroup">
-        <value xml:lang="en">Add New Party Group</value>
-    </property>
     <property key="PageTitleEditPartyAttribute">
         <value xml:lang="ar">تعديل سمات الطرف</value>
         <value xml:lang="de">Akteur Attribute bearbeiten</value>
