@@ -2009,11 +2009,12 @@ under the License.
     <request-map uri="createPartyGroup">
         <security https="true" auth="true"/>
         <event type="service" path="" invoke="createPartyGroup"/>
-        <response name="success" type="request-redirect" value="FindQuote">
+        <response name="success" type="request-redirect" value="EditQuote">
             <redirect-parameter name="partyId"/>
         </response>
-        <response name="error" type="view" value="FindQuote"/>
+        <response name="error" type="view" value="EditQuote"/>
     </request-map>
+
     <!-- end of request mappings -->
 
     <!-- View Mappings -->
