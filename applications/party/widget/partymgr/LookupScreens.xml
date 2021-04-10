@@ -57,6 +57,9 @@ under the License.
                         <include-form name="ListLookupPartyName" location="component://party/widget/partymgr/LookupForms.xml"/>
                     </decorator-section>
                 </decorator-screen>
+                <screenlet title="${uiLabelMap.PageTitleEditGroupInformation}">
+                    <include-form name="EditPartyGroup2" location="component://party/widget/partymgr/PartyForms.xml"/>
+                </screenlet>
             </widgets>
         </section>
     </screen>
