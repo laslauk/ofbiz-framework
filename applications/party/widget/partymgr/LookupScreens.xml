@@ -57,7 +57,6 @@ under the License.
                         <include-form name="ListLookupPartyName" location="component://party/widget/partymgr/LookupForms.xml"/>
                     </decorator-section>
                 </decorator-screen>
-          
             </widgets>
         </section>
     </screen>
